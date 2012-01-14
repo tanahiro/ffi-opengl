@@ -157,18 +157,23 @@ module GLU
   GLU_TESS_WINDING_ABS_GEQ_TWO = 100134
   GLU_TESS_MAX_COORD = 1.0e150
   callback(:_GLUfuncptr, [  ], :void)
-  callback(:_GLUfuncptr_tess, [:pointer, :pointer, :pointer, :pointer], :void)
   attach_function :gluBeginCurve, [ :pointer ], :void
   attach_function :gluBeginPolygon, [ :pointer ], :void
   attach_function :gluBeginSurface, [ :pointer ], :void
   attach_function :gluBeginTrim, [ :pointer ], :void
-  attach_function :gluBuild1DMipmapLevels, [ :uint, :int, :int, :uint, :uint, :int, :int, :int, :pointer ], :int
-  attach_function :gluBuild1DMipmaps, [ :uint, :int, :int, :uint, :uint, :pointer ], :int
-  attach_function :gluBuild2DMipmapLevels, [ :uint, :int, :int, :int, :uint, :uint, :int, :int, :int, :pointer ], :int
+  if RbConfig::CONFIG['target_os'] =~ /linux|darwin/
+    attach_function :gluBuild1DMipmapLevels, [ :uint, :int, :int, :uint, :uint, :int, :int, :int, :pointer ], :int
+  end
+    attach_function :gluBuild1DMipmaps, [ :uint, :int, :int, :uint, :uint, :pointer ], :int
+  if RbConfig::CONFIG['target_os'] =~ /linux|darwin/
+    attach_function :gluBuild2DMipmapLevels, [ :uint, :int, :int, :int, :uint, :uint, :int, :int, :int, :pointer ], :int
+  end
   attach_function :gluBuild2DMipmaps, [ :uint, :int, :int, :int, :uint, :uint, :pointer ], :int
-  attach_function :gluBuild3DMipmapLevels, [ :uint, :int, :int, :int, :int, :uint, :uint, :int, :int, :int, :pointer ], :int
-  attach_function :gluBuild3DMipmaps, [ :uint, :int, :int, :int, :int, :uint, :uint, :pointer ], :int
-  attach_function :gluCheckExtension, [ :pointer, :pointer ], :uchar
+  if RbConfig::CONFIG['target_os'] =~ /linux|darwin/
+    attach_function :gluBuild3DMipmapLevels, [ :uint, :int, :int, :int, :int, :uint, :uint, :int, :int, :int, :pointer ], :int
+    attach_function :gluBuild3DMipmaps, [ :uint, :int, :int, :int, :int, :uint, :uint, :pointer ], :int
+    attach_function :gluCheckExtension, [ :pointer, :pointer ], :uchar
+  end
   attach_function :gluCylinder, [ :pointer, :double, :double, :double, :int, :int ], :void
   attach_function :gluDeleteNurbsRenderer, [ :pointer ], :void
   attach_function :gluDeleteQuadric, [ :pointer ], :void
@@ -189,8 +194,10 @@ module GLU
   attach_function :gluNewTess, [  ], :pointer
   attach_function :gluNextContour, [ :pointer, :uint ], :void
   attach_function :gluNurbsCallback, [ :pointer, :uint, :_GLUfuncptr ], :void
-  attach_function :gluNurbsCallbackData, [ :pointer, :pointer ], :void
-  attach_function :gluNurbsCallbackDataEXT, [ :pointer, :pointer ], :void
+  if RbConfig::CONFIG['target_os'] =~ /linux|darwin/
+    attach_function :gluNurbsCallbackData, [ :pointer, :pointer ], :void
+    attach_function :gluNurbsCallbackDataEXT, [ :pointer, :pointer ], :void
+  end
   attach_function :gluNurbsCurve, [ :pointer, :int, :pointer, :int, :pointer, :int, :uint ], :void
   attach_function :gluNurbsProperty, [ :pointer, :uint, :float ], :void
   attach_function :gluNurbsSurface, [ :pointer, :int, :pointer, :int, :pointer, :int, :int, :pointer, :int, :int, :uint ], :void
@@ -209,13 +216,15 @@ module GLU
   attach_function :gluSphere, [ :pointer, :double, :int, :int ], :void
   attach_function :gluTessBeginContour, [ :pointer ], :void
   attach_function :gluTessBeginPolygon, [ :pointer, :pointer ], :void
-  attach_function :gluTessCallback, [ :pointer, :uint, :_GLUfuncptr_tess ], :void
+  attach_function :gluTessCallback, [ :pointer, :uint, :_GLUfuncptr ], :void
   attach_function :gluTessEndContour, [ :pointer ], :void
   attach_function :gluTessEndPolygon, [ :pointer ], :void
   attach_function :gluTessNormal, [ :pointer, :double, :double, :double ], :void
   attach_function :gluTessProperty, [ :pointer, :uint, :double ], :void
   attach_function :gluTessVertex, [ :pointer, :pointer, :pointer ], :void
   attach_function :gluUnProject, [ :double, :double, :double, :pointer, :pointer, :pointer, :pointer, :pointer, :pointer ], :int
-  attach_function :gluUnProject4, [ :double, :double, :double, :double, :pointer, :pointer, :pointer, :double, :double, :pointer, :pointer, :pointer, :pointer ], :int
+  if RbConfig::CONFIG['target_os'] =~ /linux|darwin/
+    attach_function :gluUnProject4, [ :double, :double, :double, :double, :pointer, :pointer, :pointer, :double, :double, :pointer, :pointer, :pointer, :pointer ], :int
+  end
 
 end

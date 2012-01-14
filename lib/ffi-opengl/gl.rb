@@ -911,14 +911,16 @@ module GL
   GL_TEXTURE_WRAP_R = 0x8072
   GL_MAX_3D_TEXTURE_SIZE = 0x8073
   GL_TEXTURE_BINDING_3D = 0x806A
-  attach_function :glDrawRangeElements, [ :uint, :uint, :uint, :int, :uint, :pointer ], :void
-  attach_function :glTexImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void
-  attach_function :glTexSubImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void
-  attach_function :glCopyTexSubImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :int, :int ], :void
-  callback(:PFNGLDRAWRANGEELEMENTSPROC, [ :uint, :uint, :uint, :int, :uint, :pointer ], :void)
-  callback(:PFNGLTEXIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLTEXSUBIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOPYTEXSUBIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :int, :int ], :void)
+  unless RbConfig::CONFIG['target_os'] =~ /mingw32|cygwin/
+    attach_function :glDrawRangeElements, [ :uint, :uint, :uint, :int, :uint, :pointer ], :void
+    attach_function :glTexImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void
+    attach_function :glTexSubImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void
+    attach_function :glCopyTexSubImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :int, :int ], :void
+    callback(:PFNGLDRAWRANGEELEMENTSPROC, [ :uint, :uint, :uint, :int, :uint, :pointer ], :void)
+    callback(:PFNGLTEXIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLTEXSUBIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOPYTEXSUBIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :int, :int ], :void)
+  end
   GL_CONSTANT_COLOR = 0x8001
   GL_ONE_MINUS_CONSTANT_COLOR = 0x8002
   GL_CONSTANT_ALPHA = 0x8003
@@ -994,376 +996,378 @@ module GL
   GL_FUNC_SUBTRACT = 0x800A
   GL_FUNC_REVERSE_SUBTRACT = 0x800B
   GL_BLEND_COLOR = 0x8005
-  attach_function :glColorTable, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void
-  attach_function :glColorSubTable, [ :uint, :int, :int, :uint, :uint, :pointer ], :void
-  attach_function :glColorTableParameteriv, [ :uint, :uint, :pointer ], :void
-  attach_function :glColorTableParameterfv, [ :uint, :uint, :pointer ], :void
-  attach_function :glCopyColorSubTable, [ :uint, :int, :int, :int, :int ], :void
-  attach_function :glCopyColorTable, [ :uint, :uint, :int, :int, :int ], :void
-  attach_function :glGetColorTable, [ :uint, :uint, :uint, :pointer ], :void
-  attach_function :glGetColorTableParameterfv, [ :uint, :uint, :pointer ], :void
-  attach_function :glGetColorTableParameteriv, [ :uint, :uint, :pointer ], :void
-  attach_function :glBlendEquation, [ :uint ], :void
-  attach_function :glBlendColor, [ :float, :float, :float, :float ], :void
-  attach_function :glHistogram, [ :uint, :int, :uint, :uchar ], :void
-  attach_function :glResetHistogram, [ :uint ], :void
-  attach_function :glGetHistogram, [ :uint, :uchar, :uint, :uint, :pointer ], :void
-  attach_function :glGetHistogramParameterfv, [ :uint, :uint, :pointer ], :void
-  attach_function :glGetHistogramParameteriv, [ :uint, :uint, :pointer ], :void
-  attach_function :glMinmax, [ :uint, :uint, :uchar ], :void
-  attach_function :glResetMinmax, [ :uint ], :void
-  attach_function :glGetMinmax, [ :uint, :uchar, :uint, :uint, :pointer ], :void
-  attach_function :glGetMinmaxParameterfv, [ :uint, :uint, :pointer ], :void
-  attach_function :glGetMinmaxParameteriv, [ :uint, :uint, :pointer ], :void
-  attach_function :glConvolutionFilter1D, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void
-  attach_function :glConvolutionFilter2D, [ :uint, :uint, :int, :int, :uint, :uint, :pointer ], :void
-  attach_function :glConvolutionParameterf, [ :uint, :uint, :float ], :void
-  attach_function :glConvolutionParameterfv, [ :uint, :uint, :pointer ], :void
-  attach_function :glConvolutionParameteri, [ :uint, :uint, :int ], :void
-  attach_function :glConvolutionParameteriv, [ :uint, :uint, :pointer ], :void
-  attach_function :glCopyConvolutionFilter1D, [ :uint, :uint, :int, :int, :int ], :void
-  attach_function :glCopyConvolutionFilter2D, [ :uint, :uint, :int, :int, :int, :int ], :void
-  attach_function :glGetConvolutionFilter, [ :uint, :uint, :uint, :pointer ], :void
-  attach_function :glGetConvolutionParameterfv, [ :uint, :uint, :pointer ], :void
-  attach_function :glGetConvolutionParameteriv, [ :uint, :uint, :pointer ], :void
-  attach_function :glSeparableFilter2D, [ :uint, :uint, :int, :int, :uint, :uint, :pointer, :pointer ], :void
-  attach_function :glGetSeparableFilter, [ :uint, :uint, :uint, :pointer, :pointer, :pointer ], :void
-  callback(:PFNGLBLENDCOLORPROC, [ :float, :float, :float, :float ], :void)
-  callback(:PFNGLBLENDEQUATIONPROC, [ :uint ], :void)
-  callback(:PFNGLCOLORTABLEPROC, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOLORTABLEPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOLORTABLEPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOPYCOLORTABLEPROC, [ :uint, :uint, :int, :int, :int ], :void)
-  callback(:PFNGLGETCOLORTABLEPROC, [ :uint, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETCOLORTABLEPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETCOLORTABLEPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOLORSUBTABLEPROC, [ :uint, :int, :int, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOPYCOLORSUBTABLEPROC, [ :uint, :int, :int, :int, :int ], :void)
-  callback(:PFNGLCONVOLUTIONFILTER1DPROC, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCONVOLUTIONFILTER2DPROC, [ :uint, :uint, :int, :int, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCONVOLUTIONPARAMETERFPROC, [ :uint, :uint, :float ], :void)
-  callback(:PFNGLCONVOLUTIONPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCONVOLUTIONPARAMETERIPROC, [ :uint, :uint, :int ], :void)
-  callback(:PFNGLCONVOLUTIONPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLCOPYCONVOLUTIONFILTER1DPROC, [ :uint, :uint, :int, :int, :int ], :void)
-  callback(:PFNGLCOPYCONVOLUTIONFILTER2DPROC, [ :uint, :uint, :int, :int, :int, :int ], :void)
-  callback(:PFNGLGETCONVOLUTIONFILTERPROC, [ :uint, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETCONVOLUTIONPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETCONVOLUTIONPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETSEPARABLEFILTERPROC, [ :uint, :uint, :uint, :pointer, :pointer, :pointer ], :void)
-  callback(:PFNGLSEPARABLEFILTER2DPROC, [ :uint, :uint, :int, :int, :uint, :uint, :pointer, :pointer ], :void)
-  callback(:PFNGLGETHISTOGRAMPROC, [ :uint, :uchar, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETHISTOGRAMPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETHISTOGRAMPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETMINMAXPROC, [ :uint, :uchar, :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETMINMAXPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLGETMINMAXPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
-  callback(:PFNGLHISTOGRAMPROC, [ :uint, :int, :uint, :uchar ], :void)
-  callback(:PFNGLMINMAXPROC, [ :uint, :uint, :uchar ], :void)
-  callback(:PFNGLRESETHISTOGRAMPROC, [ :uint ], :void)
-  callback(:PFNGLRESETMINMAXPROC, [ :uint ], :void)
-  GL_TEXTURE0 = 0x84C0
-  GL_TEXTURE1 = 0x84C1
-  GL_TEXTURE2 = 0x84C2
-  GL_TEXTURE3 = 0x84C3
-  GL_TEXTURE4 = 0x84C4
-  GL_TEXTURE5 = 0x84C5
-  GL_TEXTURE6 = 0x84C6
-  GL_TEXTURE7 = 0x84C7
-  GL_TEXTURE8 = 0x84C8
-  GL_TEXTURE9 = 0x84C9
-  GL_TEXTURE10 = 0x84CA
-  GL_TEXTURE11 = 0x84CB
-  GL_TEXTURE12 = 0x84CC
-  GL_TEXTURE13 = 0x84CD
-  GL_TEXTURE14 = 0x84CE
-  GL_TEXTURE15 = 0x84CF
-  GL_TEXTURE16 = 0x84D0
-  GL_TEXTURE17 = 0x84D1
-  GL_TEXTURE18 = 0x84D2
-  GL_TEXTURE19 = 0x84D3
-  GL_TEXTURE20 = 0x84D4
-  GL_TEXTURE21 = 0x84D5
-  GL_TEXTURE22 = 0x84D6
-  GL_TEXTURE23 = 0x84D7
-  GL_TEXTURE24 = 0x84D8
-  GL_TEXTURE25 = 0x84D9
-  GL_TEXTURE26 = 0x84DA
-  GL_TEXTURE27 = 0x84DB
-  GL_TEXTURE28 = 0x84DC
-  GL_TEXTURE29 = 0x84DD
-  GL_TEXTURE30 = 0x84DE
-  GL_TEXTURE31 = 0x84DF
-  GL_ACTIVE_TEXTURE = 0x84E0
-  GL_CLIENT_ACTIVE_TEXTURE = 0x84E1
-  GL_MAX_TEXTURE_UNITS = 0x84E2
-  GL_NORMAL_MAP = 0x8511
-  GL_REFLECTION_MAP = 0x8512
-  GL_TEXTURE_CUBE_MAP = 0x8513
-  GL_TEXTURE_BINDING_CUBE_MAP = 0x8514
-  GL_TEXTURE_CUBE_MAP_POSITIVE_X = 0x8515
-  GL_TEXTURE_CUBE_MAP_NEGATIVE_X = 0x8516
-  GL_TEXTURE_CUBE_MAP_POSITIVE_Y = 0x8517
-  GL_TEXTURE_CUBE_MAP_NEGATIVE_Y = 0x8518
-  GL_TEXTURE_CUBE_MAP_POSITIVE_Z = 0x8519
-  GL_TEXTURE_CUBE_MAP_NEGATIVE_Z = 0x851A
-  GL_PROXY_TEXTURE_CUBE_MAP = 0x851B
-  GL_MAX_CUBE_MAP_TEXTURE_SIZE = 0x851C
-  GL_COMPRESSED_ALPHA = 0x84E9
-  GL_COMPRESSED_LUMINANCE = 0x84EA
-  GL_COMPRESSED_LUMINANCE_ALPHA = 0x84EB
-  GL_COMPRESSED_INTENSITY = 0x84EC
-  GL_COMPRESSED_RGB = 0x84ED
-  GL_COMPRESSED_RGBA = 0x84EE
-  GL_TEXTURE_COMPRESSION_HINT = 0x84EF
-  GL_TEXTURE_COMPRESSED_IMAGE_SIZE = 0x86A0
-  GL_TEXTURE_COMPRESSED = 0x86A1
-  GL_NUM_COMPRESSED_TEXTURE_FORMATS = 0x86A2
-  GL_COMPRESSED_TEXTURE_FORMATS = 0x86A3
-  GL_MULTISAMPLE = 0x809D
-  GL_SAMPLE_ALPHA_TO_COVERAGE = 0x809E
-  GL_SAMPLE_ALPHA_TO_ONE = 0x809F
-  GL_SAMPLE_COVERAGE = 0x80A0
-  GL_SAMPLE_BUFFERS = 0x80A8
-  GL_SAMPLES = 0x80A9
-  GL_SAMPLE_COVERAGE_VALUE = 0x80AA
-  GL_SAMPLE_COVERAGE_INVERT = 0x80AB
-  GL_MULTISAMPLE_BIT = 0x20000000
-  GL_TRANSPOSE_MODELVIEW_MATRIX = 0x84E3
-  GL_TRANSPOSE_PROJECTION_MATRIX = 0x84E4
-  GL_TRANSPOSE_TEXTURE_MATRIX = 0x84E5
-  GL_TRANSPOSE_COLOR_MATRIX = 0x84E6
-  GL_COMBINE = 0x8570
-  GL_COMBINE_RGB = 0x8571
-  GL_COMBINE_ALPHA = 0x8572
-  GL_SOURCE0_RGB = 0x8580
-  GL_SOURCE1_RGB = 0x8581
-  GL_SOURCE2_RGB = 0x8582
-  GL_SOURCE0_ALPHA = 0x8588
-  GL_SOURCE1_ALPHA = 0x8589
-  GL_SOURCE2_ALPHA = 0x858A
-  GL_OPERAND0_RGB = 0x8590
-  GL_OPERAND1_RGB = 0x8591
-  GL_OPERAND2_RGB = 0x8592
-  GL_OPERAND0_ALPHA = 0x8598
-  GL_OPERAND1_ALPHA = 0x8599
-  GL_OPERAND2_ALPHA = 0x859A
-  GL_RGB_SCALE = 0x8573
-  GL_ADD_SIGNED = 0x8574
-  GL_INTERPOLATE = 0x8575
-  GL_SUBTRACT = 0x84E7
-  GL_CONSTANT = 0x8576
-  GL_PRIMARY_COLOR = 0x8577
-  GL_PREVIOUS = 0x8578
-  GL_DOT3_RGB = 0x86AE
-  GL_DOT3_RGBA = 0x86AF
-  GL_CLAMP_TO_BORDER = 0x812D
-  attach_function :glActiveTexture, [ :uint ], :void
-  attach_function :glClientActiveTexture, [ :uint ], :void
-  attach_function :glCompressedTexImage1D, [ :uint, :int, :uint, :int, :int, :int, :pointer ], :void
-  attach_function :glCompressedTexImage2D, [ :uint, :int, :uint, :int, :int, :int, :int, :pointer ], :void
-  attach_function :glCompressedTexImage3D, [ :uint, :int, :uint, :int, :int, :int, :int, :int, :pointer ], :void
-  attach_function :glCompressedTexSubImage1D, [ :uint, :int, :int, :int, :uint, :int, :pointer ], :void
-  attach_function :glCompressedTexSubImage2D, [ :uint, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void
-  attach_function :glCompressedTexSubImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void
-  attach_function :glGetCompressedTexImage, [ :uint, :int, :pointer ], :void
-  attach_function :glMultiTexCoord1d, [ :uint, :double ], :void
-  attach_function :glMultiTexCoord1dv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord1f, [ :uint, :float ], :void
-  attach_function :glMultiTexCoord1fv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord1i, [ :uint, :int ], :void
-  attach_function :glMultiTexCoord1iv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord1s, [ :uint, :short ], :void
-  attach_function :glMultiTexCoord1sv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2d, [ :uint, :double, :double ], :void
-  attach_function :glMultiTexCoord2dv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2f, [ :uint, :float, :float ], :void
-  attach_function :glMultiTexCoord2fv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2i, [ :uint, :int, :int ], :void
-  attach_function :glMultiTexCoord2iv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2s, [ :uint, :short, :short ], :void
-  attach_function :glMultiTexCoord2sv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3d, [ :uint, :double, :double, :double ], :void
-  attach_function :glMultiTexCoord3dv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3f, [ :uint, :float, :float, :float ], :void
-  attach_function :glMultiTexCoord3fv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3i, [ :uint, :int, :int, :int ], :void
-  attach_function :glMultiTexCoord3iv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3s, [ :uint, :short, :short, :short ], :void
-  attach_function :glMultiTexCoord3sv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4d, [ :uint, :double, :double, :double, :double ], :void
-  attach_function :glMultiTexCoord4dv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4f, [ :uint, :float, :float, :float, :float ], :void
-  attach_function :glMultiTexCoord4fv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4i, [ :uint, :int, :int, :int, :int ], :void
-  attach_function :glMultiTexCoord4iv, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4s, [ :uint, :short, :short, :short, :short ], :void
-  attach_function :glMultiTexCoord4sv, [ :uint, :pointer ], :void
-  attach_function :glSampleCoverage, [ :float, :uchar ], :void
-  callback(:PFNGLACTIVETEXTUREPROC, [ :uint ], :void)
-  callback(:PFNGLCLIENTACTIVETEXTUREPROC, [ :uint ], :void)
-  callback(:PFNGLMULTITEXCOORD1DPROC, [ :uint, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD1DVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD1FPROC, [ :uint, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD1FVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD1IPROC, [ :uint, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD1IVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD1SPROC, [ :uint, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD1SVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2DPROC, [ :uint, :double, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD2DVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2FPROC, [ :uint, :float, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD2FVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2IPROC, [ :uint, :int, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD2IVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2SPROC, [ :uint, :short, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD2SVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3DPROC, [ :uint, :double, :double, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD3DVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3FPROC, [ :uint, :float, :float, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD3FVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3IPROC, [ :uint, :int, :int, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD3IVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3SPROC, [ :uint, :short, :short, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD3SVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4DPROC, [ :uint, :double, :double, :double, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD4DVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4FPROC, [ :uint, :float, :float, :float, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD4FVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4IPROC, [ :uint, :int, :int, :int, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD4IVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4SPROC, [ :uint, :short, :short, :short, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD4SVPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLLOADTRANSPOSEMATRIXFPROC, [ :pointer ], :void)
-  callback(:PFNGLLOADTRANSPOSEMATRIXDPROC, [ :pointer ], :void)
-  callback(:PFNGLMULTTRANSPOSEMATRIXFPROC, [ :pointer ], :void)
-  callback(:PFNGLMULTTRANSPOSEMATRIXDPROC, [ :pointer ], :void)
-  callback(:PFNGLSAMPLECOVERAGEPROC, [ :float, :uchar ], :void)
-  callback(:PFNGLCOMPRESSEDTEXIMAGE3DPROC, [ :uint, :int, :uint, :int, :int, :int, :int, :int, :pointer ], :void)
-  callback(:PFNGLCOMPRESSEDTEXIMAGE2DPROC, [ :uint, :int, :uint, :int, :int, :int, :int, :pointer ], :void)
-  callback(:PFNGLCOMPRESSEDTEXIMAGE1DPROC, [ :uint, :int, :uint, :int, :int, :int, :pointer ], :void)
-  callback(:PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void)
-  callback(:PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC, [ :uint, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void)
-  callback(:PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC, [ :uint, :int, :int, :int, :uint, :int, :pointer ], :void)
-  callback(:PFNGLGETCOMPRESSEDTEXIMAGEPROC, [ :uint, :int, :pointer ], :void)
-  GL_ARB_multitexture = 1
-  GL_TEXTURE0_ARB = 0x84C0
-  GL_TEXTURE1_ARB = 0x84C1
-  GL_TEXTURE2_ARB = 0x84C2
-  GL_TEXTURE3_ARB = 0x84C3
-  GL_TEXTURE4_ARB = 0x84C4
-  GL_TEXTURE5_ARB = 0x84C5
-  GL_TEXTURE6_ARB = 0x84C6
-  GL_TEXTURE7_ARB = 0x84C7
-  GL_TEXTURE8_ARB = 0x84C8
-  GL_TEXTURE9_ARB = 0x84C9
-  GL_TEXTURE10_ARB = 0x84CA
-  GL_TEXTURE11_ARB = 0x84CB
-  GL_TEXTURE12_ARB = 0x84CC
-  GL_TEXTURE13_ARB = 0x84CD
-  GL_TEXTURE14_ARB = 0x84CE
-  GL_TEXTURE15_ARB = 0x84CF
-  GL_TEXTURE16_ARB = 0x84D0
-  GL_TEXTURE17_ARB = 0x84D1
-  GL_TEXTURE18_ARB = 0x84D2
-  GL_TEXTURE19_ARB = 0x84D3
-  GL_TEXTURE20_ARB = 0x84D4
-  GL_TEXTURE21_ARB = 0x84D5
-  GL_TEXTURE22_ARB = 0x84D6
-  GL_TEXTURE23_ARB = 0x84D7
-  GL_TEXTURE24_ARB = 0x84D8
-  GL_TEXTURE25_ARB = 0x84D9
-  GL_TEXTURE26_ARB = 0x84DA
-  GL_TEXTURE27_ARB = 0x84DB
-  GL_TEXTURE28_ARB = 0x84DC
-  GL_TEXTURE29_ARB = 0x84DD
-  GL_TEXTURE30_ARB = 0x84DE
-  GL_TEXTURE31_ARB = 0x84DF
-  GL_ACTIVE_TEXTURE_ARB = 0x84E0
-  GL_CLIENT_ACTIVE_TEXTURE_ARB = 0x84E1
-  GL_MAX_TEXTURE_UNITS_ARB = 0x84E2
-  attach_function :glActiveTextureARB, [ :uint ], :void
-  attach_function :glClientActiveTextureARB, [ :uint ], :void
-  attach_function :glMultiTexCoord1dARB, [ :uint, :double ], :void
-  attach_function :glMultiTexCoord1dvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord1fARB, [ :uint, :float ], :void
-  attach_function :glMultiTexCoord1fvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord1iARB, [ :uint, :int ], :void
-  attach_function :glMultiTexCoord1ivARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord1sARB, [ :uint, :short ], :void
-  attach_function :glMultiTexCoord1svARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2dARB, [ :uint, :double, :double ], :void
-  attach_function :glMultiTexCoord2dvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2fARB, [ :uint, :float, :float ], :void
-  attach_function :glMultiTexCoord2fvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2iARB, [ :uint, :int, :int ], :void
-  attach_function :glMultiTexCoord2ivARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord2sARB, [ :uint, :short, :short ], :void
-  attach_function :glMultiTexCoord2svARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3dARB, [ :uint, :double, :double, :double ], :void
-  attach_function :glMultiTexCoord3dvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3fARB, [ :uint, :float, :float, :float ], :void
-  attach_function :glMultiTexCoord3fvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3iARB, [ :uint, :int, :int, :int ], :void
-  attach_function :glMultiTexCoord3ivARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord3sARB, [ :uint, :short, :short, :short ], :void
-  attach_function :glMultiTexCoord3svARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4dARB, [ :uint, :double, :double, :double, :double ], :void
-  attach_function :glMultiTexCoord4dvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4fARB, [ :uint, :float, :float, :float, :float ], :void
-  attach_function :glMultiTexCoord4fvARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4iARB, [ :uint, :int, :int, :int, :int ], :void
-  attach_function :glMultiTexCoord4ivARB, [ :uint, :pointer ], :void
-  attach_function :glMultiTexCoord4sARB, [ :uint, :short, :short, :short, :short ], :void
-  attach_function :glMultiTexCoord4svARB, [ :uint, :pointer ], :void
-  callback(:PFNGLACTIVETEXTUREARBPROC, [ :uint ], :void)
-  callback(:PFNGLCLIENTACTIVETEXTUREARBPROC, [ :uint ], :void)
-  callback(:PFNGLMULTITEXCOORD1DARBPROC, [ :uint, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD1DVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD1FARBPROC, [ :uint, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD1FVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD1IARBPROC, [ :uint, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD1IVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD1SARBPROC, [ :uint, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD1SVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2DARBPROC, [ :uint, :double, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD2DVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2FARBPROC, [ :uint, :float, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD2FVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2IARBPROC, [ :uint, :int, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD2IVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD2SARBPROC, [ :uint, :short, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD2SVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3DARBPROC, [ :uint, :double, :double, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD3DVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3FARBPROC, [ :uint, :float, :float, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD3FVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3IARBPROC, [ :uint, :int, :int, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD3IVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD3SARBPROC, [ :uint, :short, :short, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD3SVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4DARBPROC, [ :uint, :double, :double, :double, :double ], :void)
-  callback(:PFNGLMULTITEXCOORD4DVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4FARBPROC, [ :uint, :float, :float, :float, :float ], :void)
-  callback(:PFNGLMULTITEXCOORD4FVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4IARBPROC, [ :uint, :int, :int, :int, :int ], :void)
-  callback(:PFNGLMULTITEXCOORD4IVARBPROC, [ :uint, :pointer ], :void)
-  callback(:PFNGLMULTITEXCOORD4SARBPROC, [ :uint, :short, :short, :short, :short ], :void)
-  callback(:PFNGLMULTITEXCOORD4SVARBPROC, [ :uint, :pointer ], :void)
-  GL_MESA_packed_depth_stencil = 1
-  GL_DEPTH_STENCIL_MESA = 0x8750
-  GL_UNSIGNED_INT_24_8_MESA = 0x8751
-  GL_UNSIGNED_INT_8_24_REV_MESA = 0x8752
-  GL_UNSIGNED_SHORT_15_1_MESA = 0x8753
-  GL_UNSIGNED_SHORT_1_15_REV_MESA = 0x8754
-  GL_MESA_texture_array = 1
-  GL_TEXTURE_1D_ARRAY_EXT = 0x8C18
-  GL_PROXY_TEXTURE_1D_ARRAY_EXT = 0x8C19
-  GL_TEXTURE_2D_ARRAY_EXT = 0x8C1A
-  GL_PROXY_TEXTURE_2D_ARRAY_EXT = 0x8C1B
-  GL_TEXTURE_BINDING_1D_ARRAY_EXT = 0x8C1C
-  GL_TEXTURE_BINDING_2D_ARRAY_EXT = 0x8C1D
-  GL_MAX_ARRAY_TEXTURE_LAYERS_EXT = 0x88FF
-  GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT = 0x8CD4
+  unless RbConfig::CONFIG['target_os'] =~ /mingw32|cygwin/
+    attach_function :glColorTable, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void
+    attach_function :glColorSubTable, [ :uint, :int, :int, :uint, :uint, :pointer ], :void
+    attach_function :glColorTableParameteriv, [ :uint, :uint, :pointer ], :void
+    attach_function :glColorTableParameterfv, [ :uint, :uint, :pointer ], :void
+    attach_function :glCopyColorSubTable, [ :uint, :int, :int, :int, :int ], :void
+    attach_function :glCopyColorTable, [ :uint, :uint, :int, :int, :int ], :void
+    attach_function :glGetColorTable, [ :uint, :uint, :uint, :pointer ], :void
+    attach_function :glGetColorTableParameterfv, [ :uint, :uint, :pointer ], :void
+    attach_function :glGetColorTableParameteriv, [ :uint, :uint, :pointer ], :void
+    attach_function :glBlendEquation, [ :uint ], :void
+    attach_function :glBlendColor, [ :float, :float, :float, :float ], :void
+    attach_function :glHistogram, [ :uint, :int, :uint, :uchar ], :void
+    attach_function :glResetHistogram, [ :uint ], :void
+    attach_function :glGetHistogram, [ :uint, :uchar, :uint, :uint, :pointer ], :void
+    attach_function :glGetHistogramParameterfv, [ :uint, :uint, :pointer ], :void
+    attach_function :glGetHistogramParameteriv, [ :uint, :uint, :pointer ], :void
+    attach_function :glMinmax, [ :uint, :uint, :uchar ], :void
+    attach_function :glResetMinmax, [ :uint ], :void
+    attach_function :glGetMinmax, [ :uint, :uchar, :uint, :uint, :pointer ], :void
+    attach_function :glGetMinmaxParameterfv, [ :uint, :uint, :pointer ], :void
+    attach_function :glGetMinmaxParameteriv, [ :uint, :uint, :pointer ], :void
+    attach_function :glConvolutionFilter1D, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void
+    attach_function :glConvolutionFilter2D, [ :uint, :uint, :int, :int, :uint, :uint, :pointer ], :void
+    attach_function :glConvolutionParameterf, [ :uint, :uint, :float ], :void
+    attach_function :glConvolutionParameterfv, [ :uint, :uint, :pointer ], :void
+    attach_function :glConvolutionParameteri, [ :uint, :uint, :int ], :void
+    attach_function :glConvolutionParameteriv, [ :uint, :uint, :pointer ], :void
+    attach_function :glCopyConvolutionFilter1D, [ :uint, :uint, :int, :int, :int ], :void
+    attach_function :glCopyConvolutionFilter2D, [ :uint, :uint, :int, :int, :int, :int ], :void
+    attach_function :glGetConvolutionFilter, [ :uint, :uint, :uint, :pointer ], :void
+    attach_function :glGetConvolutionParameterfv, [ :uint, :uint, :pointer ], :void
+    attach_function :glGetConvolutionParameteriv, [ :uint, :uint, :pointer ], :void
+    attach_function :glSeparableFilter2D, [ :uint, :uint, :int, :int, :uint, :uint, :pointer, :pointer ], :void
+    attach_function :glGetSeparableFilter, [ :uint, :uint, :uint, :pointer, :pointer, :pointer ], :void
+    callback(:PFNGLBLENDCOLORPROC, [ :float, :float, :float, :float ], :void)
+    callback(:PFNGLBLENDEQUATIONPROC, [ :uint ], :void)
+    callback(:PFNGLCOLORTABLEPROC, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOLORTABLEPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOLORTABLEPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOPYCOLORTABLEPROC, [ :uint, :uint, :int, :int, :int ], :void)
+    callback(:PFNGLGETCOLORTABLEPROC, [ :uint, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETCOLORTABLEPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETCOLORTABLEPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOLORSUBTABLEPROC, [ :uint, :int, :int, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOPYCOLORSUBTABLEPROC, [ :uint, :int, :int, :int, :int ], :void)
+    callback(:PFNGLCONVOLUTIONFILTER1DPROC, [ :uint, :uint, :int, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCONVOLUTIONFILTER2DPROC, [ :uint, :uint, :int, :int, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCONVOLUTIONPARAMETERFPROC, [ :uint, :uint, :float ], :void)
+    callback(:PFNGLCONVOLUTIONPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCONVOLUTIONPARAMETERIPROC, [ :uint, :uint, :int ], :void)
+    callback(:PFNGLCONVOLUTIONPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLCOPYCONVOLUTIONFILTER1DPROC, [ :uint, :uint, :int, :int, :int ], :void)
+    callback(:PFNGLCOPYCONVOLUTIONFILTER2DPROC, [ :uint, :uint, :int, :int, :int, :int ], :void)
+    callback(:PFNGLGETCONVOLUTIONFILTERPROC, [ :uint, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETCONVOLUTIONPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETCONVOLUTIONPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETSEPARABLEFILTERPROC, [ :uint, :uint, :uint, :pointer, :pointer, :pointer ], :void)
+    callback(:PFNGLSEPARABLEFILTER2DPROC, [ :uint, :uint, :int, :int, :uint, :uint, :pointer, :pointer ], :void)
+    callback(:PFNGLGETHISTOGRAMPROC, [ :uint, :uchar, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETHISTOGRAMPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETHISTOGRAMPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETMINMAXPROC, [ :uint, :uchar, :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETMINMAXPARAMETERFVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLGETMINMAXPARAMETERIVPROC, [ :uint, :uint, :pointer ], :void)
+    callback(:PFNGLHISTOGRAMPROC, [ :uint, :int, :uint, :uchar ], :void)
+    callback(:PFNGLMINMAXPROC, [ :uint, :uint, :uchar ], :void)
+    callback(:PFNGLRESETHISTOGRAMPROC, [ :uint ], :void)
+    callback(:PFNGLRESETMINMAXPROC, [ :uint ], :void)
+    GL_TEXTURE0 = 0x84C0
+    GL_TEXTURE1 = 0x84C1
+    GL_TEXTURE2 = 0x84C2
+    GL_TEXTURE3 = 0x84C3
+    GL_TEXTURE4 = 0x84C4
+    GL_TEXTURE5 = 0x84C5
+    GL_TEXTURE6 = 0x84C6
+    GL_TEXTURE7 = 0x84C7
+    GL_TEXTURE8 = 0x84C8
+    GL_TEXTURE9 = 0x84C9
+    GL_TEXTURE10 = 0x84CA
+    GL_TEXTURE11 = 0x84CB
+    GL_TEXTURE12 = 0x84CC
+    GL_TEXTURE13 = 0x84CD
+    GL_TEXTURE14 = 0x84CE
+    GL_TEXTURE15 = 0x84CF
+    GL_TEXTURE16 = 0x84D0
+    GL_TEXTURE17 = 0x84D1
+    GL_TEXTURE18 = 0x84D2
+    GL_TEXTURE19 = 0x84D3
+    GL_TEXTURE20 = 0x84D4
+    GL_TEXTURE21 = 0x84D5
+    GL_TEXTURE22 = 0x84D6
+    GL_TEXTURE23 = 0x84D7
+    GL_TEXTURE24 = 0x84D8
+    GL_TEXTURE25 = 0x84D9
+    GL_TEXTURE26 = 0x84DA
+    GL_TEXTURE27 = 0x84DB
+    GL_TEXTURE28 = 0x84DC
+    GL_TEXTURE29 = 0x84DD
+    GL_TEXTURE30 = 0x84DE
+    GL_TEXTURE31 = 0x84DF
+    GL_ACTIVE_TEXTURE = 0x84E0
+    GL_CLIENT_ACTIVE_TEXTURE = 0x84E1
+    GL_MAX_TEXTURE_UNITS = 0x84E2
+    GL_NORMAL_MAP = 0x8511
+    GL_REFLECTION_MAP = 0x8512
+    GL_TEXTURE_CUBE_MAP = 0x8513
+    GL_TEXTURE_BINDING_CUBE_MAP = 0x8514
+    GL_TEXTURE_CUBE_MAP_POSITIVE_X = 0x8515
+    GL_TEXTURE_CUBE_MAP_NEGATIVE_X = 0x8516
+    GL_TEXTURE_CUBE_MAP_POSITIVE_Y = 0x8517
+    GL_TEXTURE_CUBE_MAP_NEGATIVE_Y = 0x8518
+    GL_TEXTURE_CUBE_MAP_POSITIVE_Z = 0x8519
+    GL_TEXTURE_CUBE_MAP_NEGATIVE_Z = 0x851A
+    GL_PROXY_TEXTURE_CUBE_MAP = 0x851B
+    GL_MAX_CUBE_MAP_TEXTURE_SIZE = 0x851C
+    GL_COMPRESSED_ALPHA = 0x84E9
+    GL_COMPRESSED_LUMINANCE = 0x84EA
+    GL_COMPRESSED_LUMINANCE_ALPHA = 0x84EB
+    GL_COMPRESSED_INTENSITY = 0x84EC
+    GL_COMPRESSED_RGB = 0x84ED
+    GL_COMPRESSED_RGBA = 0x84EE
+    GL_TEXTURE_COMPRESSION_HINT = 0x84EF
+    GL_TEXTURE_COMPRESSED_IMAGE_SIZE = 0x86A0
+    GL_TEXTURE_COMPRESSED = 0x86A1
+    GL_NUM_COMPRESSED_TEXTURE_FORMATS = 0x86A2
+    GL_COMPRESSED_TEXTURE_FORMATS = 0x86A3
+    GL_MULTISAMPLE = 0x809D
+    GL_SAMPLE_ALPHA_TO_COVERAGE = 0x809E
+    GL_SAMPLE_ALPHA_TO_ONE = 0x809F
+    GL_SAMPLE_COVERAGE = 0x80A0
+    GL_SAMPLE_BUFFERS = 0x80A8
+    GL_SAMPLES = 0x80A9
+    GL_SAMPLE_COVERAGE_VALUE = 0x80AA
+    GL_SAMPLE_COVERAGE_INVERT = 0x80AB
+    GL_MULTISAMPLE_BIT = 0x20000000
+    GL_TRANSPOSE_MODELVIEW_MATRIX = 0x84E3
+    GL_TRANSPOSE_PROJECTION_MATRIX = 0x84E4
+    GL_TRANSPOSE_TEXTURE_MATRIX = 0x84E5
+    GL_TRANSPOSE_COLOR_MATRIX = 0x84E6
+    GL_COMBINE = 0x8570
+    GL_COMBINE_RGB = 0x8571
+    GL_COMBINE_ALPHA = 0x8572
+    GL_SOURCE0_RGB = 0x8580
+    GL_SOURCE1_RGB = 0x8581
+    GL_SOURCE2_RGB = 0x8582
+    GL_SOURCE0_ALPHA = 0x8588
+    GL_SOURCE1_ALPHA = 0x8589
+    GL_SOURCE2_ALPHA = 0x858A
+    GL_OPERAND0_RGB = 0x8590
+    GL_OPERAND1_RGB = 0x8591
+    GL_OPERAND2_RGB = 0x8592
+    GL_OPERAND0_ALPHA = 0x8598
+    GL_OPERAND1_ALPHA = 0x8599
+    GL_OPERAND2_ALPHA = 0x859A
+    GL_RGB_SCALE = 0x8573
+    GL_ADD_SIGNED = 0x8574
+    GL_INTERPOLATE = 0x8575
+    GL_SUBTRACT = 0x84E7
+    GL_CONSTANT = 0x8576
+    GL_PRIMARY_COLOR = 0x8577
+    GL_PREVIOUS = 0x8578
+    GL_DOT3_RGB = 0x86AE
+    GL_DOT3_RGBA = 0x86AF
+    GL_CLAMP_TO_BORDER = 0x812D
+    attach_function :glActiveTexture, [ :uint ], :void
+    attach_function :glClientActiveTexture, [ :uint ], :void
+    attach_function :glCompressedTexImage1D, [ :uint, :int, :uint, :int, :int, :int, :pointer ], :void
+    attach_function :glCompressedTexImage2D, [ :uint, :int, :uint, :int, :int, :int, :int, :pointer ], :void
+    attach_function :glCompressedTexImage3D, [ :uint, :int, :uint, :int, :int, :int, :int, :int, :pointer ], :void
+    attach_function :glCompressedTexSubImage1D, [ :uint, :int, :int, :int, :uint, :int, :pointer ], :void
+    attach_function :glCompressedTexSubImage2D, [ :uint, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void
+    attach_function :glCompressedTexSubImage3D, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void
+    attach_function :glGetCompressedTexImage, [ :uint, :int, :pointer ], :void
+    attach_function :glMultiTexCoord1d, [ :uint, :double ], :void
+    attach_function :glMultiTexCoord1dv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord1f, [ :uint, :float ], :void
+    attach_function :glMultiTexCoord1fv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord1i, [ :uint, :int ], :void
+    attach_function :glMultiTexCoord1iv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord1s, [ :uint, :short ], :void
+    attach_function :glMultiTexCoord1sv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2d, [ :uint, :double, :double ], :void
+    attach_function :glMultiTexCoord2dv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2f, [ :uint, :float, :float ], :void
+    attach_function :glMultiTexCoord2fv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2i, [ :uint, :int, :int ], :void
+    attach_function :glMultiTexCoord2iv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2s, [ :uint, :short, :short ], :void
+    attach_function :glMultiTexCoord2sv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3d, [ :uint, :double, :double, :double ], :void
+    attach_function :glMultiTexCoord3dv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3f, [ :uint, :float, :float, :float ], :void
+    attach_function :glMultiTexCoord3fv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3i, [ :uint, :int, :int, :int ], :void
+    attach_function :glMultiTexCoord3iv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3s, [ :uint, :short, :short, :short ], :void
+    attach_function :glMultiTexCoord3sv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4d, [ :uint, :double, :double, :double, :double ], :void
+    attach_function :glMultiTexCoord4dv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4f, [ :uint, :float, :float, :float, :float ], :void
+    attach_function :glMultiTexCoord4fv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4i, [ :uint, :int, :int, :int, :int ], :void
+    attach_function :glMultiTexCoord4iv, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4s, [ :uint, :short, :short, :short, :short ], :void
+    attach_function :glMultiTexCoord4sv, [ :uint, :pointer ], :void
+    attach_function :glSampleCoverage, [ :float, :uchar ], :void
+    callback(:PFNGLACTIVETEXTUREPROC, [ :uint ], :void)
+    callback(:PFNGLCLIENTACTIVETEXTUREPROC, [ :uint ], :void)
+    callback(:PFNGLMULTITEXCOORD1DPROC, [ :uint, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD1DVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD1FPROC, [ :uint, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD1FVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD1IPROC, [ :uint, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD1IVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD1SPROC, [ :uint, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD1SVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2DPROC, [ :uint, :double, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD2DVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2FPROC, [ :uint, :float, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD2FVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2IPROC, [ :uint, :int, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD2IVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2SPROC, [ :uint, :short, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD2SVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3DPROC, [ :uint, :double, :double, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD3DVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3FPROC, [ :uint, :float, :float, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD3FVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3IPROC, [ :uint, :int, :int, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD3IVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3SPROC, [ :uint, :short, :short, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD3SVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4DPROC, [ :uint, :double, :double, :double, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD4DVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4FPROC, [ :uint, :float, :float, :float, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD4FVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4IPROC, [ :uint, :int, :int, :int, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD4IVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4SPROC, [ :uint, :short, :short, :short, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD4SVPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLLOADTRANSPOSEMATRIXFPROC, [ :pointer ], :void)
+    callback(:PFNGLLOADTRANSPOSEMATRIXDPROC, [ :pointer ], :void)
+    callback(:PFNGLMULTTRANSPOSEMATRIXFPROC, [ :pointer ], :void)
+    callback(:PFNGLMULTTRANSPOSEMATRIXDPROC, [ :pointer ], :void)
+    callback(:PFNGLSAMPLECOVERAGEPROC, [ :float, :uchar ], :void)
+    callback(:PFNGLCOMPRESSEDTEXIMAGE3DPROC, [ :uint, :int, :uint, :int, :int, :int, :int, :int, :pointer ], :void)
+    callback(:PFNGLCOMPRESSEDTEXIMAGE2DPROC, [ :uint, :int, :uint, :int, :int, :int, :int, :pointer ], :void)
+    callback(:PFNGLCOMPRESSEDTEXIMAGE1DPROC, [ :uint, :int, :uint, :int, :int, :int, :pointer ], :void)
+    callback(:PFNGLCOMPRESSEDTEXSUBIMAGE3DPROC, [ :uint, :int, :int, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void)
+    callback(:PFNGLCOMPRESSEDTEXSUBIMAGE2DPROC, [ :uint, :int, :int, :int, :int, :int, :uint, :int, :pointer ], :void)
+    callback(:PFNGLCOMPRESSEDTEXSUBIMAGE1DPROC, [ :uint, :int, :int, :int, :uint, :int, :pointer ], :void)
+    callback(:PFNGLGETCOMPRESSEDTEXIMAGEPROC, [ :uint, :int, :pointer ], :void)
+    GL_ARB_multitexture = 1
+    GL_TEXTURE0_ARB = 0x84C0
+    GL_TEXTURE1_ARB = 0x84C1
+    GL_TEXTURE2_ARB = 0x84C2
+    GL_TEXTURE3_ARB = 0x84C3
+    GL_TEXTURE4_ARB = 0x84C4
+    GL_TEXTURE5_ARB = 0x84C5
+    GL_TEXTURE6_ARB = 0x84C6
+    GL_TEXTURE7_ARB = 0x84C7
+    GL_TEXTURE8_ARB = 0x84C8
+    GL_TEXTURE9_ARB = 0x84C9
+    GL_TEXTURE10_ARB = 0x84CA
+    GL_TEXTURE11_ARB = 0x84CB
+    GL_TEXTURE12_ARB = 0x84CC
+    GL_TEXTURE13_ARB = 0x84CD
+    GL_TEXTURE14_ARB = 0x84CE
+    GL_TEXTURE15_ARB = 0x84CF
+    GL_TEXTURE16_ARB = 0x84D0
+    GL_TEXTURE17_ARB = 0x84D1
+    GL_TEXTURE18_ARB = 0x84D2
+    GL_TEXTURE19_ARB = 0x84D3
+    GL_TEXTURE20_ARB = 0x84D4
+    GL_TEXTURE21_ARB = 0x84D5
+    GL_TEXTURE22_ARB = 0x84D6
+    GL_TEXTURE23_ARB = 0x84D7
+    GL_TEXTURE24_ARB = 0x84D8
+    GL_TEXTURE25_ARB = 0x84D9
+    GL_TEXTURE26_ARB = 0x84DA
+    GL_TEXTURE27_ARB = 0x84DB
+    GL_TEXTURE28_ARB = 0x84DC
+    GL_TEXTURE29_ARB = 0x84DD
+    GL_TEXTURE30_ARB = 0x84DE
+    GL_TEXTURE31_ARB = 0x84DF
+    GL_ACTIVE_TEXTURE_ARB = 0x84E0
+    GL_CLIENT_ACTIVE_TEXTURE_ARB = 0x84E1
+    GL_MAX_TEXTURE_UNITS_ARB = 0x84E2
+    attach_function :glActiveTextureARB, [ :uint ], :void
+    attach_function :glClientActiveTextureARB, [ :uint ], :void
+    attach_function :glMultiTexCoord1dARB, [ :uint, :double ], :void
+    attach_function :glMultiTexCoord1dvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord1fARB, [ :uint, :float ], :void
+    attach_function :glMultiTexCoord1fvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord1iARB, [ :uint, :int ], :void
+    attach_function :glMultiTexCoord1ivARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord1sARB, [ :uint, :short ], :void
+    attach_function :glMultiTexCoord1svARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2dARB, [ :uint, :double, :double ], :void
+    attach_function :glMultiTexCoord2dvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2fARB, [ :uint, :float, :float ], :void
+    attach_function :glMultiTexCoord2fvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2iARB, [ :uint, :int, :int ], :void
+    attach_function :glMultiTexCoord2ivARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord2sARB, [ :uint, :short, :short ], :void
+    attach_function :glMultiTexCoord2svARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3dARB, [ :uint, :double, :double, :double ], :void
+    attach_function :glMultiTexCoord3dvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3fARB, [ :uint, :float, :float, :float ], :void
+    attach_function :glMultiTexCoord3fvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3iARB, [ :uint, :int, :int, :int ], :void
+    attach_function :glMultiTexCoord3ivARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord3sARB, [ :uint, :short, :short, :short ], :void
+    attach_function :glMultiTexCoord3svARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4dARB, [ :uint, :double, :double, :double, :double ], :void
+    attach_function :glMultiTexCoord4dvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4fARB, [ :uint, :float, :float, :float, :float ], :void
+    attach_function :glMultiTexCoord4fvARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4iARB, [ :uint, :int, :int, :int, :int ], :void
+    attach_function :glMultiTexCoord4ivARB, [ :uint, :pointer ], :void
+    attach_function :glMultiTexCoord4sARB, [ :uint, :short, :short, :short, :short ], :void
+    attach_function :glMultiTexCoord4svARB, [ :uint, :pointer ], :void
+    callback(:PFNGLACTIVETEXTUREARBPROC, [ :uint ], :void)
+    callback(:PFNGLCLIENTACTIVETEXTUREARBPROC, [ :uint ], :void)
+    callback(:PFNGLMULTITEXCOORD1DARBPROC, [ :uint, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD1DVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD1FARBPROC, [ :uint, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD1FVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD1IARBPROC, [ :uint, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD1IVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD1SARBPROC, [ :uint, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD1SVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2DARBPROC, [ :uint, :double, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD2DVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2FARBPROC, [ :uint, :float, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD2FVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2IARBPROC, [ :uint, :int, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD2IVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD2SARBPROC, [ :uint, :short, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD2SVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3DARBPROC, [ :uint, :double, :double, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD3DVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3FARBPROC, [ :uint, :float, :float, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD3FVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3IARBPROC, [ :uint, :int, :int, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD3IVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD3SARBPROC, [ :uint, :short, :short, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD3SVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4DARBPROC, [ :uint, :double, :double, :double, :double ], :void)
+    callback(:PFNGLMULTITEXCOORD4DVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4FARBPROC, [ :uint, :float, :float, :float, :float ], :void)
+    callback(:PFNGLMULTITEXCOORD4FVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4IARBPROC, [ :uint, :int, :int, :int, :int ], :void)
+    callback(:PFNGLMULTITEXCOORD4IVARBPROC, [ :uint, :pointer ], :void)
+    callback(:PFNGLMULTITEXCOORD4SARBPROC, [ :uint, :short, :short, :short, :short ], :void)
+    callback(:PFNGLMULTITEXCOORD4SVARBPROC, [ :uint, :pointer ], :void)
+    GL_MESA_packed_depth_stencil = 1
+    GL_DEPTH_STENCIL_MESA = 0x8750
+    GL_UNSIGNED_INT_24_8_MESA = 0x8751
+    GL_UNSIGNED_INT_8_24_REV_MESA = 0x8752
+    GL_UNSIGNED_SHORT_15_1_MESA = 0x8753
+    GL_UNSIGNED_SHORT_1_15_REV_MESA = 0x8754
+    GL_MESA_texture_array = 1
+    GL_TEXTURE_1D_ARRAY_EXT = 0x8C18
+    GL_PROXY_TEXTURE_1D_ARRAY_EXT = 0x8C19
+    GL_TEXTURE_2D_ARRAY_EXT = 0x8C1A
+    GL_PROXY_TEXTURE_2D_ARRAY_EXT = 0x8C1B
+    GL_TEXTURE_BINDING_1D_ARRAY_EXT = 0x8C1C
+    GL_TEXTURE_BINDING_2D_ARRAY_EXT = 0x8C1D
+    GL_MAX_ARRAY_TEXTURE_LAYERS_EXT = 0x88FF
+    GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LAYER_EXT = 0x8CD4
+  end
 
 end

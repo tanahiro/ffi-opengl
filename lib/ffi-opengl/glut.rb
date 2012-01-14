@@ -282,5 +282,88 @@ module GLUT
   attach_function :glutForceJoystickFunc, [  ], :void
   attach_function :glutExtensionSupported, [ :string ], :int
   attach_function :glutReportErrors, [  ], :void
+  unless RbConfig::CONFIG['target_os'] =~ /darwin/
+    GLUT_KEY_NUM_LOCK = 0x006D
+    GLUT_KEY_BEGIN = 0x006E
+    GLUT_KEY_DELETE = 0x006F
+    GLUT_ACTION_EXIT = 0
+    GLUT_ACTION_GLUTMAINLOOP_RETURNS = 1
+    GLUT_ACTION_CONTINUE_EXECUTION = 2
+    GLUT_CREATE_NEW_CONTEXT = 0
+    GLUT_USE_CURRENT_CONTEXT = 1
+    GLUT_FORCE_INDIRECT_CONTEXT = 0
+    GLUT_ALLOW_DIRECT_CONTEXT = 1
+    GLUT_TRY_DIRECT_CONTEXT = 2
+    GLUT_FORCE_DIRECT_CONTEXT = 3
+    GLUT_ACTION_ON_WINDOW_CLOSE = 0x01F9
+    GLUT_WINDOW_BORDER_WIDTH = 0x01FA
+    GLUT_WINDOW_HEADER_HEIGHT = 0x01FB
+    GLUT_VERSION = 0x01FC
+    GLUT_RENDERING_CONTEXT = 0x01FD
+    GLUT_DIRECT_RENDERING = 0x01FE
+    GLUT_FULL_SCREEN = 0x01FF
+    GLUT_AUX = 0x1000
+    GLUT_AUX1 = 0x1000
+    GLUT_AUX2 = 0x2000
+    GLUT_AUX3 = 0x4000
+    GLUT_AUX4 = 0x8000
+    GLUT_INIT_MAJOR_VERSION = 0x0200
+    GLUT_INIT_MINOR_VERSION = 0x0201
+    GLUT_INIT_FLAGS = 0x0202
+    GLUT_INIT_PROFILE = 0x0203
+    GLUT_DEBUG = 0x0001
+    GLUT_FORWARD_COMPATIBLE = 0x0002
+    GLUT_CORE_PROFILE = 0x0001
+    GLUT_COMPATIBILITY_PROFILE = 0x0002
+    attach_function :glutMainLoopEvent, [  ], :void
+    attach_function :glutLeaveMainLoop, [  ], :void
+    attach_function :glutExit, [  ], :void
+    attach_function :glutFullScreenToggle, [  ], :void
+    attach_function :glutMouseWheelFunc, [ callback([ :int, :int, :int, :int ], :void) ], :void
+    attach_function :glutCloseFunc, [ callback([  ], :void) ], :void
+    attach_function :glutWMCloseFunc, [ callback([  ], :void) ], :void
+    attach_function :glutMenuDestroyFunc, [ callback([  ], :void) ], :void
+    attach_function :glutSetOption, [ :uint, :int ], :void
+    attach_function :glutGetModeValues, [ :uint, :pointer ], :pointer
+    attach_function :glutGetWindowData, [  ], :pointer
+    attach_function :glutSetWindowData, [ :pointer ], :void
+    attach_function :glutGetMenuData, [  ], :pointer
+    attach_function :glutSetMenuData, [ :pointer ], :void
+    attach_function :glutBitmapHeight, [ :pointer ], :int
+    attach_function :glutStrokeHeight, [ :pointer ], :float
+    attach_function :glutBitmapString, [ :pointer, :pointer ], :void
+    attach_function :glutStrokeString, [ :pointer, :pointer ], :void
+    attach_function :glutWireRhombicDodecahedron, [  ], :void
+    attach_function :glutSolidRhombicDodecahedron, [  ], :void
+    attach_function :glutWireSierpinskiSponge, [ :int, :pointer, :double ], :void
+    attach_function :glutSolidSierpinskiSponge, [ :int, :pointer, :double ], :void
+    #attach_function :glutWireSierpinskiSponge, [ :int, [:double, 3], :double ], :void
+  #attach_function :glutSolidSierpinskiSponge, [ :int, [:double, 3], :double ], :void
+    attach_function :glutWireCylinder, [ :double, :double, :int, :int ], :void
+    attach_function :glutSolidCylinder, [ :double, :double, :int, :int ], :void
+    callback(:GLUTproc, [  ], :void)
+    if RbConfig::CONFIG['target_os'] =~ /linux/
+      attach_function :glutGetProcAddress, [ :string ], :GLUTproc
+      attach_function :glutJoystickGetNumAxes, [ :int ], :int
+      attach_function :glutJoystickGetNumButtons, [ :int ], :int
+      attach_function :glutJoystickNotWorking, [ :int ], :int
+      attach_function :glutJoystickGetDeadBand, [ :int, :int ], :float
+      attach_function :glutJoystickSetDeadBand, [ :int, :int, :float ], :void
+      attach_function :glutJoystickGetSaturation, [ :int, :int ], :float
+      attach_function :glutJoystickSetSaturation, [ :int, :int, :float ], :void
+      attach_function :glutJoystickSetMinRange, [ :int, :pointer ], :void
+      attach_function :glutJoystickSetMaxRange, [ :int, :pointer ], :void
+      attach_function :glutJoystickSetCenter, [ :int, :pointer ], :void
+      attach_function :glutJoystickGetMinRange, [ :int, :pointer ], :void
+      attach_function :glutJoystickGetMaxRange, [ :int, :pointer ], :void
+      attach_function :glutJoystickGetCenter, [ :int, :pointer ], :void
+      attach_function :glutInitContextVersion, [ :int, :int ], :void
+      attach_function :glutInitContextFlags, [ :int ], :void
+      attach_function :glutInitContextProfile, [ :int ], :void
+    end
+    GLUT_CAPTIONLESS = 0x0400
+    GLUT_BORDERLESS = 0x0800
+    GLUT_SRGB = 0x1000
+  end
 
 end

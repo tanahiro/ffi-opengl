@@ -26,6 +26,7 @@ typedef double		GLclampd;	/* double precision float in [0,1] */
 
 
 %include freeglut_std.h
+%include freeglut_ext.h
 
 %{
 end

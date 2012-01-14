@@ -1,4 +1,13 @@
 ffi-opengl
+A modifide version of ffi-opengl.
+
+* modified to be used on Windows XP 
+  (tested on Wiondws XP, Mac OS X(10.7) and Ubuntu 11.10)
+* added functions in freeglut_ext.h (not for Mac)
+
+----
+
+ffi-opengl
     by Andrea Fazzi
     http://github.com/remogatto/ffi-opengl/
 
