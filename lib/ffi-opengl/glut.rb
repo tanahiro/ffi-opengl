@@ -332,6 +332,7 @@ module GLUT
     attach_function :glutBitmapHeight, [ :pointer ], :int
     attach_function :glutStrokeHeight, [ :pointer ], :float
     attach_function :glutBitmapString, [ :pointer, :pointer ], :void
+    #attach_function :glutBitmapString, [ callback([ ], :void), :pointer ], :void
     attach_function :glutStrokeString, [ :pointer, :pointer ], :void
     attach_function :glutWireRhombicDodecahedron, [  ], :void
     attach_function :glutSolidRhombicDodecahedron, [  ], :void
@@ -365,5 +366,15 @@ module GLUT
     GLUT_BORDERLESS = 0x0800
     GLUT_SRGB = 0x1000
   end
-
+  if RbConfig::CONFIG['target_os'] =~ /mingw32|cygwin/
+    GLUT_STROKE_ROMAN = 0x0000
+    GLUT_STROKE_MONO_ROMAN = 0x0001
+    GLUT_BITMAP_9_BY_15 = 0x0002
+    GLUT_BITMAP_8_BY_13 = 0x0003
+    GLUT_BITMAP_TIMES_ROMAN_10 = 0x0004
+    GLUT_BITMAP_TIMES_ROMAN_24 = 0x0005
+    GLUT_BITMAP_HELVETICA_10 = 0x0006
+    GLUT_BITMAP_HELVETICA_12 = 0x0007
+    GLUT_BITMAP_HELVETICA_18 = 0x0008
+  end
 end

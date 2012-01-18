@@ -17,10 +17,8 @@ module GLU
     ffi_lib 'libGLU.so.1'
   when /darwin/
     ffi_lib '/System/Library/Frameworks/OpenGL.framework/Libraries/libGLU.dylib'
-  when /mingw32/
+  when /mingw32/, /cgwin/
     ffi_lib 'glu32.dll'
-  when /cygwin/
-    ffi_lib 'libGLU.dll.a'
   end
 end
 module GLUT
@@ -32,6 +30,5 @@ module GLUT
     ffi_lib '/System/Library/Frameworks/GLUT.framework/GLUT'
   when /mingw32/, /cygwin/
     ffi_lib 'freeglut.dll'
-    #ffi_lib 'libglut.dll.a'
   end
 end
